@@ -115,8 +115,8 @@ output_layer = output_layer(embedding_size).to(device)
 optimizer = optim.Adam(list(embedded.parameters())+list(output_layer.parameters()), lr=args.lr)
 
 expr_train, expr_test, ess_train, ess_test = train_test_split(exp_mat, ess_mat, train_size=args.split_ratio, random_state=args.seed)
-trainset = ImmuneDataset(expr_train, ess_train)
-testset = ImmuneDataset(expr_test, ess_test)
+trainset = dts(expr_train, ess_train)
+testset = dts(expr_test, ess_test)
 kwargs = {'pin_memory': True} if use_cuda else {}
 train_loader = torch.utils.data.DataLoader(trainset, batch_size=args.batch_size, num_workers=args.num_workers, timeout=1, **kwargs)
 test_loader = torch.utils.data.DataLoader(testset, batch_size=args.batch_size, num_workers=args.num_workers, timeout=1, **kwargs)
